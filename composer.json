@@ -10,7 +10,7 @@
   ],
   "autoload": {
     "psr-4": {
-      "ShubhamGupta16\\LaraliteCore": "src/",
+      "ShubhamGupta16\\LaraliteCore\\": "src/",
       "ShubhamGupta16\\LaraliteCore\\Types\\": "src/types/"
     }
   }
