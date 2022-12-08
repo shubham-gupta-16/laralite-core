@@ -1,0 +1,17 @@
+{
+  "name": "shubham-gupta-16/laralite-core",
+  "description": "The core files for a laralite project",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Shubham Gupta"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "ShubhamGupta16\\LaraliteCore": "src/",
+      "ShubhamGupta16\\LaraliteCore\\Types\\": "src/types/"
+    }
+  }
+}
