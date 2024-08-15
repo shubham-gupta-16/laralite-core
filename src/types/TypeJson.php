@@ -2,16 +2,18 @@
 
 namespace ShubhamGupta16\LaraliteCore\Types;
 
+use ShubhamGupta16\LaraliteCore\RouteMap;
+
 class TypeJson
 {
-    public $method;
+    public $route_map;
     public $data;
     public $status;
     public $headers;
 
-    public function __construct(string $method, array|object|string|int|float $data)
+    public function __construct(?RouteMap $route_map, array|object|string|int|float $data)
     {
-        $this->method = $method;
+        $this->route_map = $route_map;
         $this->data = $data;
     }
 

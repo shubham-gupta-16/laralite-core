@@ -2,17 +2,19 @@
 
 namespace ShubhamGupta16\LaraliteCore\Types;
 
+use ShubhamGupta16\LaraliteCore\RouteMap;
+
 class TypeView
 {
-    public $method;
+    public $route_map;
     public $file;
     public $data;
     public $status;
     public $headers;
 
-    public function __construct(string $method, string $file_name)
+    public function __construct(?RouteMap $route_map, string $file_name)
     {
-        $this->method = $method;
+        $this->route_map = $route_map;
         $this->file = $file_name;
     }
 

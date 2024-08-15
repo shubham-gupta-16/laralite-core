@@ -23,31 +23,31 @@ class LaraliteCore
 
         try {
             switch (get_class($route)) {
-                case 'Internal\Types\TypeView':
-                    self::validate_method($route->method, false);
+                case 'ShubhamGupta16\LaraliteCore\Types\TypeView':
+                    self::validate_method($route->route_map, false);
                     if (!is_file("..\\views\\" . $route->file . '.php')) return self::err(500);
                     $DATA = (object) $route->data;
                     include '..\\views\\' . $route->file . '.php';
-                    self::output($response->status, $response->headers, null);
+                    self::output($route->status, $route->headers, null);
                     break;
-                case 'Internal\Types\TypeJson':
-                    self::validate_method($route->method, true);
-                    self::output($response->status, $response->headers, $response->data);
+                case 'ShubhamGupta16\LaraliteCore\Types\TypeJson':
+                    self::validate_method($route->route_map, true);
+                    self::output($route->status, $route->headers, $route->data);
                     break;
-                case 'Internal\Types\TypeController':
+                case 'ShubhamGupta16\LaraliteCore\Types\TypeController':
                     if (!is_file("..\\controllers\\" . $route->file . '.php')) return self::err(500);
                     include '..\\controllers\\' . $route->file . '.php';
                     $response = call_user_func($route->fun, ...$data);
-                    if (gettype($response) == 'object' && get_class($response) == 'Internal\Types\TypeView') {
-                        self::validate_method($route->method, false);
+                    if (gettype($response) == 'object' && get_class($response) == 'ShubhamGupta16\LaraliteCore\Types\TypeView') {
+                        self::validate_method($route->route_map, false);
                         $DATA = (object) $response->data;
                         include '..\\views\\' . $response->file . '.php';
                         self::output($response->status, $response->headers, null);
-                    } elseif (gettype($response) == 'object' && get_class($response) == 'Internal\Types\TypeJson') {
-                        self::validate_method($route->method, true);
+                    } elseif (gettype($response) == 'object' && get_class($response) == 'ShubhamGupta16\LaraliteCore\Types\TypeJson') {
+                        self::validate_method($route->route_map, true);
                         self::output($response->status, $response->headers, $response->data);
                     } else {
-                        self::validate_method($route->method, true);
+                        self::validate_method($route->route_map, true);
                         self::output(200, null, $response);
                     }
                     break;
@@ -57,6 +57,10 @@ class LaraliteCore
         } catch (\Throwable $th) {
             self::err($th->getCode(), $th->getMessage());
         }
+    }
+
+    private static function setup_middlewares(){
+
     }
 
     private static function output(int $status_code, ?array $headers, $data)
@@ -74,9 +78,9 @@ class LaraliteCore
         die;
     }
 
-    private static function validate_method(string $method, bool $isJson)
+    private static function validate_method(RouteMap $route_map, bool $isJson)
     {
-        if ($_SERVER['REQUEST_METHOD'] !== $method) {
+        if ($_SERVER['REQUEST_METHOD'] !== $route_map->method) {
             return self::err(400, $isJson ? 'Bad Request' : null);
         }
     }
@@ -98,6 +102,8 @@ class LaraliteCore
 
     private static function matchRoute($routes = [], $url = null)
     {
+        if (!isset($_SERVER['REDIRECT_URL']) && $url == null)
+            return [];
         $reqUrl = $url ?? $_SERVER['REDIRECT_URL'];
 
         $reqUrl = rtrim($reqUrl, "/");

@@ -9,11 +9,11 @@ class Response {
 
     static public function json(array|object|string|int|float $data): TypeJson
     {
-        return new TypeJson('', $data);
+        return new TypeJson(null, $data);
     }
 
     static public function view(string $file_name): TypeView
     {
-        return new TypeView('', $file_name);
+        return new TypeView(null, $file_name);
     }
 }
