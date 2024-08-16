@@ -28,4 +28,13 @@ class TypeJson
         $this->headers = $headers;
         return $this;
     }
+
+    public function addHeader(string $key, string $value): TypeJson
+    {
+        if (!isset($this->headers)) {
+            $this->headers = [];
+        }
+        $this->headers[$key] = $value;
+        return $this;
+    }
 }

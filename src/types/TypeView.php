@@ -35,4 +35,13 @@ class TypeView
         $this->headers = $headers;
         return $this;
     }
+
+    public function addHeader(string $key, string $value): TypeView
+    {
+        if (!isset($this->headers)) {
+            $this->headers = [];
+        }
+        $this->headers[$key] = $value;
+        return $this;
+    }
 }
